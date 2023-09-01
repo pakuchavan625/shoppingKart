@@ -119,7 +119,7 @@ const SignUp = () => {
     
             if (response.ok) {
               const data = await response.json();
-              localStorage.setItem("username", registerObj.firstName)
+              localStorage.setItem("userObj", JSON.stringify(registerObj))
               toast.success("User Registered successfully")
               setTimeout(()=>{
                 navigate("/login");    

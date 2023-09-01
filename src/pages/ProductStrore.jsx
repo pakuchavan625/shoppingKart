@@ -4,11 +4,14 @@ import { productsArray } from "../product";
 import ProductCard from "../component/ProductCard";
 import Footer from "../component/Footer";
 import { ArrowUp } from "react-bootstrap-icons";
+import Pagination from 'react-bootstrap/Pagination';
+
 
 const ProductStrore = () => {
   const [searchItem, setSearchItem] = useState("");
   const [showButton, setShowButton] = useState(false);
   const [sortOrder, setSortOrder] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -53,6 +56,20 @@ const ProductStrore = () => {
     }
     return 0;
   });
+
+  // pagination logic
+  const itemsPerPage = 8; 
+  const paginationData =  sortedProducts; 
+
+  const totalPages = Math.ceil(paginationData.length / itemsPerPage);
+
+  const handlePageChange = (page) => {
+   setCurrentPage(page);
+ };
+
+ const startIndex = (currentPage - 1) * itemsPerPage;
+ const endIndex = startIndex + itemsPerPage;
+ const currentData = paginationData.slice(startIndex, endIndex);
 
   return (
     <>
@@ -109,14 +126,14 @@ const ProductStrore = () => {
         </div>
       </Form>
       <Row xs={1} md={3} className="g-4 mb-4">
-        {sortedProducts.length === 0 ? (
+        {currentData.length === 0 ? (
           <>
             <p style={{ color: "red" }}>
-              serach {sortedProducts.length} item found
+              serach {currentData.length} item found
             </p>
           </>
         ) : (
-          sortedProducts.map((item, index) => {
+          currentData.map((item, index) => {
             return (
               <Col align="center" key={index}>
                 <ProductCard productInfo={item} />
@@ -130,6 +147,30 @@ const ProductStrore = () => {
           </Button>
         )}
       </Row>
+      {/* render pagination */}
+      <Pagination style={{display:'flex', justifyContent:'ce'}}>
+      <Pagination.First onClick={() => handlePageChange(1)} />
+      <Pagination.Prev
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+      />
+
+      {Array.from({ length: totalPages }, (_, index) => (
+        <Pagination.Item
+          key={index}
+          active={index + 1 === currentPage}
+          onClick={() => handlePageChange(index + 1)}
+        >
+          {index + 1}
+        </Pagination.Item>
+      ))}
+
+      <Pagination.Next
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      />
+      <Pagination.Last onClick={() => handlePageChange(totalPages)} />
+    </Pagination>
       <Footer />
     </>
   );

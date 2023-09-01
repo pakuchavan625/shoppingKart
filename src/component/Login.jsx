@@ -47,7 +47,7 @@ const Login = () => {
             });
     
             if (response.ok) {
-              const data = await response.json();
+              toast.success("User logged in successfully!");
               localStorage.setItem("isLoggedIn", "true");
               setTimeout(()=>{
                   navigate("/home");

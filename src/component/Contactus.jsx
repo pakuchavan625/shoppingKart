@@ -135,6 +135,7 @@ const Contactus = () => {
             className="form-control"
             id="firstname"
             aria-describedby="First Name"
+            style={{width:"300px"}}
             value={firstName}
             onChange={handleFirstName}
           />
@@ -147,6 +148,7 @@ const Contactus = () => {
             className="form-control"
             id="lastName"
             aria-describedby="First Name"
+            style={{width:"300px"}}
             value={lastName}
             onChange={handleLastName}
           />
@@ -159,6 +161,7 @@ const Contactus = () => {
             className="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
+            style={{width:"300px"}}
             value={email}
             onChange={handleEmail}
           />
@@ -171,6 +174,7 @@ const Contactus = () => {
             className="form-control"
             id="phone"
             aria-describedby="phonehelp"
+            style={{width:"300px"}}
             value={phone}
             onChange={handlePhoneNumber}
           />
@@ -182,7 +186,7 @@ const Contactus = () => {
             <Form.Control
               as="textarea"
               placeholder="Leave a comment here"
-              style={{ height: "100px" }}
+              style={{ height: "100px", width:'300px' }}
               value={message}
               onChange={handleMessage}
             />

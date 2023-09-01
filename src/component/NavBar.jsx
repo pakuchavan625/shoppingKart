@@ -12,7 +12,14 @@ const NavBar = () => {
   const [show, setShow] = useState(false);
   const [logoutShow, setLogoutShow] = useState(false);
 
-  const userName = localStorage.getItem("username");
+  const userName = JSON.parse(localStorage.getItem("userObj"));
+  const extarctFirstName= userName.firstName
+  const firstLetter =extarctFirstName.split('')[0]
+  const firstLetterCapital = firstLetter.toUpperCase()
+  const extarctLastName= userName.lastName.split('')[0]
+  const firstLetterLn =extarctLastName.split('')[0]
+  const firstLetterCapitalLN =firstLetterLn.toUpperCase()
+
 
   const cart = useContext(CartContext);
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -89,7 +96,7 @@ const NavBar = () => {
             {isLoggedIn ? (
               <>
                 <div class="user-container">
-                  <span className="username">{userName}</span>
+                  <span className="username">{`${firstLetterCapital}${firstLetterCapitalLN}`}</span>
                   <div className="logout-box">
                     <Button size="sm" onClick={handleOpenLogoutModal}>
                       Logout

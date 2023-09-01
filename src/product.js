@@ -57,6 +57,276 @@ const productsArray = [
         title: "Wardboard",
         price: 7899
     },
+    {
+        id: 'price_1NieAfGLexEdM8pEjWEtV6Ar',
+        title: "Coffee",
+        price: 4
+    },
+    {
+        id: 'price_1NieBfGLexEdM8pEHZON5U83',
+        title: "Sunglasses",
+        price: 9
+    },
+    {
+        id: 'price_1NieCiGLexEdM8pEdBlMrCXd',
+        title: "Camera",
+        price: 3999
+    },
+    {
+        id: 'price_1NieDVGLexEdM8pEwzWt3W68',
+        title: "Mobile",
+        price: 13739
+    },
+    {
+        id: 'price_1NieECGLexEdM8pEbBEwIzbi',
+        title: "Cycle",
+        price: 5000
+    },
+    {
+        id: 'price_1NieEwGLexEdM8pE41q4faUu',
+        title: "Washing Machine",
+        price: 18999
+    },
+    {
+        id: 'price_1NieFaGLexEdM8pE89346MnF',
+        title: "Tv",
+        price: 15639
+    },
+    {
+        id: 'price_1NieGCGLexEdM8pEADkffbyx',
+        title: "Sofa",
+        price: 98939
+    },
+    {
+        id: 'price_1NieHlGLexEdM8pEdtfE5ino',
+        title: "Wardboard",
+        price: 7899
+    },
+    {
+        id: 'price_1NieAfGLexEdM8pEjWEtV6Ar',
+        title: "Coffee",
+        price: 4
+    },
+    {
+        id: 'price_1NieBfGLexEdM8pEHZON5U83',
+        title: "Sunglasses",
+        price: 9
+    },
+    {
+        id: 'price_1NieCiGLexEdM8pEdBlMrCXd',
+        title: "Camera",
+        price: 3999
+    },
+    {
+        id: 'price_1NieDVGLexEdM8pEwzWt3W68',
+        title: "Mobile",
+        price: 13739
+    },
+    {
+        id: 'price_1NieECGLexEdM8pEbBEwIzbi',
+        title: "Cycle",
+        price: 5000
+    },
+    {
+        id: 'price_1NieEwGLexEdM8pE41q4faUu',
+        title: "Washing Machine",
+        price: 18999
+    },
+    {
+        id: 'price_1NieFaGLexEdM8pE89346MnF',
+        title: "Tv",
+        price: 15639
+    },
+    {
+        id: 'price_1NieGCGLexEdM8pEADkffbyx',
+        title: "Sofa",
+        price: 98939
+    },
+    {
+        id: 'price_1NieHlGLexEdM8pEdtfE5ino',
+        title: "Wardboard",
+        price: 7899
+    },
+    {
+        id: 'price_1NieAfGLexEdM8pEjWEtV6Ar',
+        title: "Coffee",
+        price: 4
+    },
+    {
+        id: 'price_1NieBfGLexEdM8pEHZON5U83',
+        title: "Sunglasses",
+        price: 9
+    },
+    {
+        id: 'price_1NieCiGLexEdM8pEdBlMrCXd',
+        title: "Camera",
+        price: 3999
+    },
+    {
+        id: 'price_1NieDVGLexEdM8pEwzWt3W68',
+        title: "Mobile",
+        price: 13739
+    },
+    {
+        id: 'price_1NieECGLexEdM8pEbBEwIzbi',
+        title: "Cycle",
+        price: 5000
+    },
+    {
+        id: 'price_1NieEwGLexEdM8pE41q4faUu',
+        title: "Washing Machine",
+        price: 18999
+    },
+    {
+        id: 'price_1NieFaGLexEdM8pE89346MnF',
+        title: "Tv",
+        price: 15639
+    },
+    {
+        id: 'price_1NieGCGLexEdM8pEADkffbyx',
+        title: "Sofa",
+        price: 98939
+    },
+    {
+        id: 'price_1NieHlGLexEdM8pEdtfE5ino',
+        title: "Wardboard",
+        price: 7899
+    },
+    {
+        id: 'price_1NieAfGLexEdM8pEjWEtV6Ar',
+        title: "Coffee",
+        price: 4
+    },
+    {
+        id: 'price_1NieBfGLexEdM8pEHZON5U83',
+        title: "Sunglasses",
+        price: 9
+    },
+    {
+        id: 'price_1NieCiGLexEdM8pEdBlMrCXd',
+        title: "Camera",
+        price: 3999
+    },
+    {
+        id: 'price_1NieDVGLexEdM8pEwzWt3W68',
+        title: "Mobile",
+        price: 13739
+    },
+    {
+        id: 'price_1NieECGLexEdM8pEbBEwIzbi',
+        title: "Cycle",
+        price: 5000
+    },
+    {
+        id: 'price_1NieEwGLexEdM8pE41q4faUu',
+        title: "Washing Machine",
+        price: 18999
+    },
+    {
+        id: 'price_1NieFaGLexEdM8pE89346MnF',
+        title: "Tv",
+        price: 15639
+    },
+    {
+        id: 'price_1NieGCGLexEdM8pEADkffbyx',
+        title: "Sofa",
+        price: 98939
+    },
+    {
+        id: 'price_1NieHlGLexEdM8pEdtfE5ino',
+        title: "Wardboard",
+        price: 7899
+    },
+    {
+        id: 'price_1NieAfGLexEdM8pEjWEtV6Ar',
+        title: "Coffee",
+        price: 4
+    },
+    {
+        id: 'price_1NieBfGLexEdM8pEHZON5U83',
+        title: "Sunglasses",
+        price: 9
+    },
+    {
+        id: 'price_1NieCiGLexEdM8pEdBlMrCXd',
+        title: "Camera",
+        price: 3999
+    },
+    {
+        id: 'price_1NieDVGLexEdM8pEwzWt3W68',
+        title: "Mobile",
+        price: 13739
+    },
+    {
+        id: 'price_1NieECGLexEdM8pEbBEwIzbi',
+        title: "Cycle",
+        price: 5000
+    },
+    {
+        id: 'price_1NieEwGLexEdM8pE41q4faUu',
+        title: "Washing Machine",
+        price: 18999
+    },
+    {
+        id: 'price_1NieFaGLexEdM8pE89346MnF',
+        title: "Tv",
+        price: 15639
+    },
+    {
+        id: 'price_1NieGCGLexEdM8pEADkffbyx',
+        title: "Sofa",
+        price: 98939
+    },
+    {
+        id: 'price_1NieHlGLexEdM8pEdtfE5ino',
+        title: "Wardboard",
+        price: 7899
+    },
+    {
+        id: 'price_1NieAfGLexEdM8pEjWEtV6Ar',
+        title: "Coffee",
+        price: 4
+    },
+    {
+        id: 'price_1NieBfGLexEdM8pEHZON5U83',
+        title: "Sunglasses",
+        price: 9
+    },
+    {
+        id: 'price_1NieCiGLexEdM8pEdBlMrCXd',
+        title: "Camera",
+        price: 3999
+    },
+    {
+        id: 'price_1NieDVGLexEdM8pEwzWt3W68',
+        title: "Mobile",
+        price: 13739
+    },
+    {
+        id: 'price_1NieECGLexEdM8pEbBEwIzbi',
+        title: "Cycle",
+        price: 5000
+    },
+    {
+        id: 'price_1NieEwGLexEdM8pE41q4faUu',
+        title: "Washing Machine",
+        price: 18999
+    },
+    {
+        id: 'price_1NieFaGLexEdM8pE89346MnF',
+        title: "Tv",
+        price: 15639
+    },
+    {
+        id: 'price_1NieGCGLexEdM8pEADkffbyx',
+        title: "Sofa",
+        price: 98939
+    },
+    {
+        id: 'price_1NieHlGLexEdM8pEdtfE5ino',
+        title: "Wardboard",
+        price: 7899
+    },
 
 ];
 
