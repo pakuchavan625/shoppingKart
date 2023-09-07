@@ -6,7 +6,7 @@ import { CartContext } from "../CartContext";
 
 
 const SignUp = () => {
-  const cartSignupUserData = useContext(CartContext)
+  const {singUp, translate} = useContext(CartContext)
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -124,7 +124,7 @@ const SignUp = () => {
               const data = await response.json();
               localStorage.setItem("userObj", JSON.stringify(registerObj))
               toast.success("User Registered successfully")
-              cartSignupUserData.singUp(registerObj)
+              singUp(registerObj)
               setTimeout(()=>{
                 navigate("/login");    
               },3000)
@@ -147,15 +147,27 @@ const SignUp = () => {
 
   return (
     <>
+     {/*   login:'Anmeldung',
+    registerdOrNot:`Hat noch kein Konto`,
+    emailAddres : ` E-Mail-Adresse`,
+    emailWeDontSHare :`Wir geben Ihre E-Mail-Adresse niemals an Dritte weiter.`,
+    password:'Passwort',
+    agree:'Zustimmen',
+    loginButton:'Anmeldung' 
+    firstName:"Vorname",
+    lastName:'Nachname',
+    emial:'E-Mail',
+    phone:'Telefon',
+    message:'Nachricht',*/}
       <div className="FormContainer">
         <div className="formwrapper">
-          <header className="login">Register</header>
+          <header className="login">{translate("register")}</header>
           <p>
-            If you have an account? <Link to="/login">Login</Link>{" "}
+            {translate("ifYouHaveAccount")}? <Link to="/login">{translate("login")}</Link>{" "}
           </p>
           <form>
             <div className="form-group mb-2">
-              <label for="firstname">First Name</label>
+              <label for="firstname">{translate("firstName")}</label>
               <input
                 type="text"
                 className="form-control"
@@ -169,7 +181,7 @@ const SignUp = () => {
               )}
             </div>
             <div className="form-group mb-2">
-              <label for="lastname">Last Name</label>
+              <label for="lastname">{translate("lastName")}</label>
               <input
                 type="text"
                 className="form-control"
@@ -181,7 +193,7 @@ const SignUp = () => {
               {lastNameError && <p style={{ color: "red" }}>{lastNameError}</p>}
             </div>
             <div className="form-group mb-2">
-              <label for="exampleInputEmail1">Username</label>
+              <label for="exampleInputEmail1">{translate("emial")}</label>
               <input
                 type="email"
                 className="form-control"
@@ -191,12 +203,12 @@ const SignUp = () => {
                 onChange={handleEmailOnChange}
               />
               <small id="emailHelp" className="form-text text-muted">
-                We'll never share your email with anyone else.
+                {translate('emailWeDontSHare')}
               </small>
               {emailError && <p style={{ color: "red" }}>{emailError}</p>}
             </div>
             <div className="form-group">
-              <label for="exampleInputPassword1" className="">Password</label>
+              <label for="exampleInputPassword1" className="">{translate("password")}</label>
               <div className="password-input-container">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -226,7 +238,7 @@ const SignUp = () => {
                 onChange={handleCheckboxChange}
               />
               <label className="form-check-label" for="exampleCheck1">
-                Agree
+                {translate("agree")}
               </label>
               {checkboxError && <p style={{ color: "red" }}>{checkboxError}</p>}
             </div>
@@ -235,7 +247,7 @@ const SignUp = () => {
               className="btn btn-primary"
               onClick={handleSubmit}
             >
-              Register
+          {translate("register")}
             </button>
             <ToastContainer/>
           </form>

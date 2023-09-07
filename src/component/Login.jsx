@@ -7,7 +7,7 @@ import { CartContext } from "../CartContext";
 
 
 const Login = () => {
-  const cartDetail = useContext(CartContext)
+  const {login, translate} = useContext(CartContext)
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +48,7 @@ const Login = () => {
             if (response.ok) {
               toast.success("User logged in successfully!");
               localStorage.setItem("isLoggedIn", "true");
-              cartDetail.login(loginObj)
+              login(loginObj)
               setTimeout(()=>{
                 // Here navigating to the next page along the passing the data object also
                   navigate("/home",  { state:loginObj})
@@ -105,16 +105,17 @@ const Login = () => {
   };
 
   return (
+    
     <>
       <div className="FormContainer">
         <div className="formwrapper">
-          <header className="login">Login</header>
+          <header className="login">{translate("login")}</header>
           <p>
-            Doesn't have account yet? <Link to="/register">Register</Link>{" "}
+            {translate("registerdOrNot")}? <Link to="/register">{translate("register")}</Link>{" "}
           </p>
           <form>
             <div className="form-group">
-              <label for="exampleInputEmail1">Email address</label>
+              <label for="exampleInputEmail1">{translate('emailAddres')}</label>
               <input
                 type="email"
                 className="form-control"
@@ -124,12 +125,12 @@ const Login = () => {
                 onChange={handleEmailOnChange}
               />
               <small id="emailHelp" className="form-text text-muted">
-                We'll never share your email with anyone else.
+               {translate('emailWeDontSHare')}
               </small>
               {emailError && <p style={{ color: "red" }}>{emailError}</p>}
             </div>
             <div className="form-group">
-              <label for="exampleInputPassword1" className="password">Password</label>
+              <label for="exampleInputPassword1" className="password">{translate("password")}</label>
               <div className="password-input-container">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -160,7 +161,7 @@ const Login = () => {
                 onChange={handleCheckboxChange}
               />
               <label className="form-check-label" for="exampleCheck1">
-                Agree
+               {translate("agree")}
               </label>
               {checkboxError && <p style={{ color: "red" }}>{checkboxError}</p>}
             </div>
@@ -169,7 +170,7 @@ const Login = () => {
               className="btn btn-primary"
               onClick={handleSubmit}
             >
-              Login
+              {translate("loginButton")}
             </button>
             <ToastContainer />
           </form>

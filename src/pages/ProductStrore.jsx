@@ -161,6 +161,7 @@ const ProductStrore = () => {
         )}
       </Row>
       {/* render pagination */}
+      {currentData.length > 0 &&
       <Pagination style={{display:'flex', justifyContent:'center'}}>
       <Pagination.First onClick={() => handlePageChange(1)} />
       <Pagination.Prev
@@ -183,7 +184,7 @@ const ProductStrore = () => {
         disabled={currentPage === totalPages}
       />
       <Pagination.Last onClick={() => handlePageChange(totalPages)} />
-    </Pagination>
+    </Pagination>}
     </Container>
       <Footer />
     </>

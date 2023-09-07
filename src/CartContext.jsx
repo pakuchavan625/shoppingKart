@@ -129,7 +129,16 @@ const translations = {
     message:'Message',
     send:'Send',
     paymentSuccess :'Congratulations! Payment Successful',
-    pageNotFound:'Page not Found'
+    pageNotFound:'Page not Found',
+    login:'Login',
+    registerdOrNot:'Doesnt have account yet',
+    register:'Register',
+    emailAddres : 'Email address',
+    emailWeDontSHare :`We'll never share your email with anyone else.`,
+    password:'Password',
+    agree:'Agree',
+    loginButton:'Login',
+    ifYouHaveAccount:'If you have an account'
   },
   de: {
     wellComeMessage :'Hallo, willkommen!',
@@ -151,7 +160,16 @@ const translations = {
     message:'Nachricht',
     send:'schicken',
     paymentSuccess :'Glückwunsch! Bezahlung erfolgreich',
-    pageNotFound:'Seite nicht gefunden'
+    pageNotFound:'Seite nicht gefunden',
+    login:'Anmeldung',
+    registerdOrNot:`Hat noch kein Konto`,
+    register:'Registrieren',
+    emailAddres : ` E-Mail-Adresse`,
+    emailWeDontSHare :`Wir geben Ihre E-Mail-Adresse niemals an Dritte weiter.`,
+    password:'Passwort',
+    agree:'Zustimmen',
+    loginButton:'Anmeldung',
+    ifYouHaveAccount:'Wenn Sie ein Konto haben'
   }
 };
 

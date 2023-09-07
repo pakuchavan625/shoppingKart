@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Button, Navbar, Modal, Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../CartContext";
 import CartProducts from "./CartProducts";
 import { Cart } from "react-bootstrap-icons";
@@ -92,10 +92,13 @@ const NavBar = () => {
       >
         <Container>
           <Navbar.Brand style={{ color: "white" }}>
+            <Link to='/home'>
             <div className="logo"></div>
+            </Link>
+          
           </Navbar.Brand>
           <Navbar.Toggle />
-          <Navbar.Collapse className="justify-content-end">
+          <Navbar.Collapse className="justify-content-end navbar-collaps">
             <Button className="mx-2" onClick={handleOpenModal}>
               {productCount}
               <Cart />
@@ -114,7 +117,7 @@ const NavBar = () => {
             ) : (
               ""
             )}
-            <div style={{marginLeft:'5px'}}>
+            <div className="mx-2">
               <button
                 onClick={() => cart.changeLanguage(alternativeLanguage)}
                 className="language-button"
