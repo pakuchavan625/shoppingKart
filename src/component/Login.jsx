@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { CartContext } from "../CartContext";
+
 
 
 const Login = () => {
+  const cartDetail = useContext(CartContext)
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,23 +20,19 @@ const Login = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    let hasError = false; // Track if any validation errors exist
     if (!email) {
       setEmailError("Email is required");
-      hasError = true;
     }
 
     if (!password) {
       setPasswordError("Password is required");
-      hasError = true;
     }
 
     if (!isChecked) {
       setCheckboxError("Please agre to the term and condition");
-      hasError = true;
     }
 
-      if (!hasError) {
+      if (email && password && isChecked) {
         try {
             const loginObj = {
                email,password
@@ -49,8 +48,10 @@ const Login = () => {
             if (response.ok) {
               toast.success("User logged in successfully!");
               localStorage.setItem("isLoggedIn", "true");
+              cartDetail.login(loginObj)
               setTimeout(()=>{
-                  navigate("/home");
+                // Here navigating to the next page along the passing the data object also
+                  navigate("/home",  { state:loginObj})
               },2000)
 
             } else {

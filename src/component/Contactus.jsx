@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Form, FloatingLabel, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
+import { CartContext } from "../CartContext";
+
 
 const Contactus = () => {
+  const cart = useContext(CartContext)
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -127,9 +130,18 @@ const Contactus = () => {
 
   return (
     <>
+    {/* follow:'Folgen',
+    address:'Adresse',
+    openingHours:'Öffnungszeiten',
+    getInTouch:'Nehmen Sie Kontakt auf',
+    firstName:"Vorname",
+    lastName:'Nachname',
+    emial:'E-Mail',
+    phone:'Telefon',
+    message:'Nachricht', */}
       <form>
         <div className="form-group mb-2">
-          <label for="firstname">First Name</label>
+          <label for="firstname">{cart.translate('firstName')}</label>
           <input
             type="text"
             className="form-control"
@@ -142,7 +154,7 @@ const Contactus = () => {
         </div>
         {firstNameError && <p style={{ color: "red" }}>{firstNameError}</p>}
         <div className="form-group mb-2">
-          <label for="lastname">Last Name</label>
+          <label for="lastname">{cart.translate('lastName')}</label>
           <input
             type="text"
             className="form-control"
@@ -155,7 +167,7 @@ const Contactus = () => {
         </div>
         {lastNameError && <p style={{ color: "red" }}>{lastNameError}</p>}
         <div className="form-group mb-2">
-          <label for="exampleInputEmail1">Email</label>
+          <label for="exampleInputEmail1">{cart.translate('emial')}</label>
           <input
             type="email"
             className="form-control"
@@ -168,7 +180,7 @@ const Contactus = () => {
         </div>
         {emailError && <p style={{ color: "red" }}>{emailError}</p>}
         <div className="form-group mb-2">
-          <label for="exampleInputEmail1">Phone</label>
+          <label for="exampleInputEmail1">{cart.translate('phone')}</label>
           <input
             type="text"
             className="form-control"
@@ -181,7 +193,7 @@ const Contactus = () => {
         </div>
         {phoneNoError && <p style={{ color: "red" }}>{phoneNoError}</p>}
         <div className="form-group mb-2">
-          <label for="exampleInputEmail1">Message</label>
+          <label for="exampleInputEmail1">{cart.translate('message')}</label>
           <FloatingLabel>
             <Form.Control
               as="textarea"
@@ -193,8 +205,8 @@ const Contactus = () => {
           </FloatingLabel>
         </div>
         {messageError && <p style={{ color: "red" }}>{messageError}</p>}
-        <Button type="submit" className="btn btn-primary" onClick={handleSend}>
-          send
+        <Button  variant="dark" type="submit" className="btn btn-primary" onClick={handleSend}>
+        {cart.translate('send')}
         </Button>
         <ToastContainer />
       </form>

@@ -13,13 +13,12 @@ const NavBar = () => {
   const [logoutShow, setLogoutShow] = useState(false);
 
   const userName = JSON.parse(localStorage.getItem("userObj"));
-  const extarctFirstName= userName.firstName
-  const firstLetter =extarctFirstName.split('')[0]
-  const firstLetterCapital = firstLetter.toUpperCase()
-  const extarctLastName= userName.lastName.split('')[0]
-  const firstLetterLn =extarctLastName.split('')[0]
-  const firstLetterCapitalLN =firstLetterLn.toUpperCase()
-
+  const extarctFirstName = userName.firstName;
+  const firstLetter = extarctFirstName.split("")[0];
+  const firstLetterCapital = firstLetter.toUpperCase();
+  const extarctLastName = userName.lastName.split("")[0];
+  const firstLetterLn = extarctLastName.split("")[0];
+  const firstLetterCapitalLN = firstLetterLn.toUpperCase();
 
   const cart = useContext(CartContext);
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -72,16 +71,24 @@ const NavBar = () => {
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     cart.deleteFromCart();
+    cart.logout();
     navigate("/login");
     setLogoutShow(false);
   };
+
+  const languageOptions = {
+    en: "En",
+    de: "De",
+  };
+
+  const alternativeLanguage = cart.language === "en" ? "de" : "en";
 
   return (
     <>
       <Navbar
         expand="sm"
         className="mb-4 p-4 fixed-top"
-        style={{ backgroundColor: "#4646f1", zIndex: 10 }}
+        style={{ backgroundColor: "#495057", zIndex: 10 }}
       >
         <Container>
           <Navbar.Brand style={{ color: "white" }}>
@@ -107,9 +114,22 @@ const NavBar = () => {
             ) : (
               ""
             )}
+            <div style={{marginLeft:'5px'}}>
+              <button
+                onClick={() => cart.changeLanguage(alternativeLanguage)}
+                className="language-button"
+              >
+                {languageOptions[cart.language]}
+                <span className="alternative-language">
+                  {languageOptions[alternativeLanguage]}
+                </span>
+              </button>
+            </div>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      {/* well come text */}
+
       {/* MODAL OPENS */}
       {isLoggedIn ? (
         <Modal show={show} onHide={handleClose}>

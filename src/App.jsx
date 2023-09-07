@@ -24,16 +24,16 @@ function App() {
     
     <>
     <CartProvider>
-    <Container>
+    <div style={{overflowX:'hidden'}}>
       <Router>
-        <NavBar  />
-        <Crousal/>
+        <NavBar />
+        <Crousal/> 
         <Routes>
         <Route
-          path="/"
-          element={isLoggedIn ? <ProductStrore/> : <Login />}
+          exact path="/"
+          element={isLoggedIn ? <Navigate to="/home" replace={true} /> : <Navigate to="/login" replace={true} />}
         />
-          <Route exact path="/home" element={<ProductStrore />} />
+          <Route  path="/home" element={<ProductStrore />} />
           <Route path='/login' element={<Login/>}/>
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />
@@ -43,7 +43,7 @@ function App() {
           <Route path='*' element={<PageNotFound/>}/>
         </Routes>
       </Router>
-      </Container>
+      </div>
     </CartProvider>
       
     </>

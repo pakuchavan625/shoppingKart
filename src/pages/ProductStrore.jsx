@@ -1,13 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import React, { useState, useEffect, useContext } from "react";
+import { Row, Col, Form, Button, Container } from "react-bootstrap";
 import { productsArray } from "../product";
 import ProductCard from "../component/ProductCard";
 import Footer from "../component/Footer";
 import { ArrowUp } from "react-bootstrap-icons";
 import Pagination from 'react-bootstrap/Pagination';
+import { useLocation } from "react-router-dom";
+import { CartContext } from "../CartContext";
+
 
 
 const ProductStrore = () => {
+  const cartloginUserDetail = useContext(CartContext)
+
+  // best way to get the data from useLocation hook
+  // const location = useLocation()
+  // const emailData = location.state.email
+  // console.log("emailData",emailData)
   const [searchItem, setSearchItem] = useState("");
   const [showButton, setShowButton] = useState(false);
   const [sortOrder, setSortOrder] = useState("");
@@ -25,6 +34,7 @@ const ProductStrore = () => {
     setSearchItem(searchValues);
   };
 
+  // search logic
   const filterProduct = productsArray.filter((product) => {
     return (
       product.title.toLocaleLowerCase().includes(searchItem) ||
@@ -47,6 +57,8 @@ const ProductStrore = () => {
   const handleClear = () => {
     setSearchItem("");
   };
+
+  // sorting logic
 
   const sortedProducts = [...filterProduct].sort((a, b) => {
     if (sortOrder === "asc") {
@@ -73,6 +85,7 @@ const ProductStrore = () => {
 
   return (
     <>
+    <Container>
       <header
         align="center"
         className="g-4 header-style"
@@ -83,7 +96,7 @@ const ProductStrore = () => {
           marginTop: "160px !important",
         }}
       >
-        Well come to the Ecommerce Product store
+        {/* {cartloginUserDetail.registerData.firstName ? <p> Hello {cartloginUserDetail.registerData.firstName}  Well come to the Ecommerce Product store!</p> : <p>Well come to the Ecommerce Product store!</p> }     */}
       </header>
       <Form>
         <Form.Group
@@ -93,8 +106,8 @@ const ProductStrore = () => {
         >
           <Form.Control
             type="text"
-            placeholder="serach for products"
-            style={{ width: "100%", maxWidth: "300px" }} // Responsive width using inline style
+            placeholder={cartloginUserDetail.translate("searchForProduct")}
+            style={{ width: "100%", backgroundColor:'#e9ecef'}} // Responsive width using inline style
             onChange={handleSearchInput}
             value={searchItem}
           />
@@ -107,7 +120,7 @@ const ProductStrore = () => {
         <div className="mb-4">
         <Form.Check
           inline
-          label="Price Low to High"
+          label={cartloginUserDetail.translate("priceLowToHigh")}
           type="radio"
           name="sorting"
           id="sortAsc"
@@ -116,7 +129,7 @@ const ProductStrore = () => {
         />
         <Form.Check
           inline
-          label="Price High to Low"
+          label={cartloginUserDetail.translate("priceHighToLow")}
           type="radio"
           name="sorting"
           id="sortDesc"
@@ -136,7 +149,7 @@ const ProductStrore = () => {
           currentData.map((item, index) => {
             return (
               <Col align="center" key={index}>
-                <ProductCard productInfo={item} />
+                <ProductCard productInfo={item}  productTitleIndex={index}/>
               </Col>
             );
           })
@@ -148,7 +161,7 @@ const ProductStrore = () => {
         )}
       </Row>
       {/* render pagination */}
-      <Pagination style={{display:'flex', justifyContent:'ce'}}>
+      <Pagination style={{display:'flex', justifyContent:'center'}}>
       <Pagination.First onClick={() => handlePageChange(1)} />
       <Pagination.Prev
         onClick={() => handlePageChange(currentPage - 1)}
@@ -171,6 +184,7 @@ const ProductStrore = () => {
       />
       <Pagination.Last onClick={() => handlePageChange(totalPages)} />
     </Pagination>
+    </Container>
       <Footer />
     </>
   );

@@ -337,7 +337,6 @@ const productsArray = [
 const getProductData = (id)=>{
     let productData = productsArray.find(product => product.id === id)
     // if(productData.id === undefined) {
-    //     console.loog("Product does not exist")
     //     return undefined
     // }
     return productData

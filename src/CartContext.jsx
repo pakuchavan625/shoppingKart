@@ -4,6 +4,14 @@ import {  getProductData } from "./product";
 
 export const CartContext = createContext({
   item: [],
+  userdata :{},
+  signupData:{},
+  language : 'en',
+  changeLanguage :()=>{},
+  translate :()=>{},
+  login :()=>{},
+  logout:()=>{},
+  singUp:()=>{},
   getProductQuantity: () => {},
   addOneToCart: () => {},
   removeOneFromCart: () => {},
@@ -16,6 +24,9 @@ export const CartContext = createContext({
 
 export const CartProvider = ({ children }) => {
   const [cartProduct, setCardProduct] = useState([]);
+  const [user, setUser] = useState(null)
+  const [signupUserData, setSignUserData]= useState({})
+  const [language, setChangeLaguage] = useState("en")
 
   // [{id : 1, quantity :2}, {id : 2 , quantity : 3}]
 
@@ -82,8 +93,86 @@ export const CartProvider = ({ children }) => {
     })
     return totalCost;
  }
+
+ const login =(userInfor)=>{
+  setUser(userInfor)
+ }
+
+ const logout =()=>{
+  setUser('')
+ }
+
+ const singUp =(signupUserInfo)=>{
+setSignUserData(signupUserInfo)
+ }
+
+//  tranlastion implemention
+
+const translations = {
+  en: {
+    wellComeMessage :'Hello wellcome!',
+    title: ['Coffe', 'Sunglasses', 'Camera','Mobile', 'Cycle','Washing Machine','Tv', 'Sofa'],
+    addToCart: "Add to Cart",
+    removeFromCart: "Remove from cart",
+    inCart :"In Cart",
+    priceLowToHigh:'Price Low to High',
+    priceHighToLow:'Price High to Low',
+    searchForProduct :'search for products',
+    follow:'Follow',
+    address:'Address',
+    openingHours:'Opening Hours',
+    getInTouch:'Get in touch',
+    firstName:"First Name",
+    lastName:'Last Name',
+    emial:'Email',
+    phone:'Phone',
+    message:'Message',
+    send:'Send',
+    paymentSuccess :'Congratulations! Payment Successful',
+    pageNotFound:'Page not Found'
+  },
+  de: {
+    wellComeMessage :'Hallo, willkommen!',
+    title: ['Kaffee', 'Sonnenbrille','Kamera','Mobil','Fahrrad','Waschmaschine','Fernseher','Sofa'],
+    addToCart: "in den Warenkorb legen",
+    removeFromCart: "Aus dem Warenkorb entfernen",
+    inCart :"Im Wagen",
+    priceLowToHigh:'Preis niedrig bis hoch',
+    priceHighToLow:'Preis hoch bis niedrig',
+    searchForProduct :'Suche nach Produkten',
+    follow:'Folgen',
+    address:'Adresse',
+    openingHours:'Öffnungszeiten',
+    getInTouch:'Nehmen Sie Kontakt auf',
+    firstName:"Vorname",
+    lastName:'Nachname',
+    emial:'E-Mail',
+    phone:'Telefon',
+    message:'Nachricht',
+    send:'schicken',
+    paymentSuccess :'Glückwunsch! Bezahlung erfolgreich',
+    pageNotFound:'Seite nicht gefunden'
+  }
+};
+
+const changeLanguage=(newLanguage)=>{
+  setChangeLaguage(newLanguage)
+}
+
+const translate=(key)=>{
+  return translations[language][key] || key;
+}
+
   const contextValue = {
     item: cartProduct,
+    userdata:user,
+    registerData:signupUserData,
+    language,
+    changeLanguage,
+    translate,
+    login,
+    logout,
+    singUp,
     getProductQuantity,
     addOneToCart,
     removeOneFromCart,

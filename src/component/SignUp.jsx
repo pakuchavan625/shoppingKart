@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
+import { CartContext } from "../CartContext";
+
 
 const SignUp = () => {
+  const cartSignupUserData = useContext(CartContext)
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -121,15 +124,16 @@ const SignUp = () => {
               const data = await response.json();
               localStorage.setItem("userObj", JSON.stringify(registerObj))
               toast.success("User Registered successfully")
+              cartSignupUserData.singUp(registerObj)
               setTimeout(()=>{
                 navigate("/login");    
               },3000)
        
             } else {
-              console.error('Registration failed.');
+              toast.warn("Registration failed.")
             }
           } catch (error) {
-            console.error('Error during registration:', error);
+            toast.warn("Error during registration")
           }
       
       }
