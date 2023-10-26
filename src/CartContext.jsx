@@ -19,8 +19,6 @@ export const CartContext = createContext({
   getTotalCost: () => {},
 });
 
-// Context ---> it holds all the things in your app for example cart, add to cart, remove from cart
-// Provider ---> Gives the react app to acees the all the things in your Context
 
 export const CartProvider = ({ children }) => {
   const [cartProduct, setCardProduct] = useState([]);
@@ -28,7 +26,7 @@ export const CartProvider = ({ children }) => {
   const [signupUserData, setSignUserData]= useState({})
   const [language, setChangeLaguage] = useState("en")
 
-  // [{id : 1, quantity :2}, {id : 2 , quantity : 3}]
+
 
   const getProductQuantity = (id) => {
     const quantity = cartProduct.find((product) => product.id === id)?.quantity;

@@ -5,7 +5,9 @@ import { useContext } from "react";
 
 const ProductCard = ({productInfo, productTitleIndex}) => {
     const cart = useContext(CartContext)
+  
     const productQuantity = cart.getProductQuantity(productInfo.id)
+   
 
     const handleAddToCart =()=>{
         cart.addOneToCart(productInfo.id)
@@ -18,8 +20,9 @@ const ProductCard = ({productInfo, productTitleIndex}) => {
     const handleDeleteFromCart =() =>{
         cart.deleteFromCart(productInfo.id)
     }
-    
+
     const productTitle = cart.translate("title")[productTitleIndex];
+   
 
   return (
     <>
@@ -27,7 +30,7 @@ const ProductCard = ({productInfo, productTitleIndex}) => {
         {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
         <Card.Body>
           
-          <Card.Title>{productTitle}</Card.Title>
+          <Card.Title>{productInfo.title}</Card.Title>
           <Card.Text>
             <span>&#8364;</span>
             {` ${productInfo.price}`}

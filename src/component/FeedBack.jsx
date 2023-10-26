@@ -7,7 +7,7 @@ const FeedBack = () => {
   return (
     <>
         <h1 style={{marginTop:'165px'}}>Thank you for your message.Our team get back to you soon!</h1>
-        <Link to='/home' data-toggle="tooltip" data-placement="top" title="Go back to Home page">
+        <Link to='/' data-toggle="tooltip" data-placement="top" title="Go back to Home page">
         <Button variant="primary"> <ArrowLeft /></Button>
         </Link>
     </>

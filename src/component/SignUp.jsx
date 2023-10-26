@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
 import { CartContext } from "../CartContext";
+import Spinner from "react-bootstrap/Spinner";
+import { Button } from "react-bootstrap";
+
 
 
 const SignUp = () => {
@@ -19,6 +22,7 @@ const SignUp = () => {
   const [passwordError, setPasswordError] = useState("");
   const [checkboxError, setCheckboxError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFirstNameChange = (e) => {
     setFirstName(e.target.value);
@@ -108,6 +112,7 @@ const SignUp = () => {
     }
     
     if (!hasError) {
+      setIsLoading(true)
         try {
             const registerObj = {
                 firstName,lastName,email,password
@@ -126,14 +131,17 @@ const SignUp = () => {
               toast.success("User Registered successfully")
               singUp(registerObj)
               setTimeout(()=>{
-                navigate("/login");    
+                navigate("/login", {state:registerObj});  
+                setIsLoading(false)  
               },3000)
        
             } else {
               toast.warn("Registration failed.")
+              setIsLoading(false) 
             }
           } catch (error) {
             toast.warn("Error during registration")
+            setIsLoading(false) 
           }
       
       }
@@ -147,22 +155,10 @@ const SignUp = () => {
 
   return (
     <>
-     {/*   login:'Anmeldung',
-    registerdOrNot:`Hat noch kein Konto`,
-    emailAddres : ` E-Mail-Adresse`,
-    emailWeDontSHare :`Wir geben Ihre E-Mail-Adresse niemals an Dritte weiter.`,
-    password:'Passwort',
-    agree:'Zustimmen',
-    loginButton:'Anmeldung' 
-    firstName:"Vorname",
-    lastName:'Nachname',
-    emial:'E-Mail',
-    phone:'Telefon',
-    message:'Nachricht',*/}
       <div className="FormContainer">
         <div className="formwrapper">
           <header className="login">{translate("register")}</header>
-          <p>
+          <p style={{textAlign:'center'}}>
             {translate("ifYouHaveAccount")}? <Link to="/login">{translate("login")}</Link>{" "}
           </p>
           <form>
@@ -242,13 +238,20 @@ const SignUp = () => {
               </label>
               {checkboxError && <p style={{ color: "red" }}>{checkboxError}</p>}
             </div>
-            <button
+            <Button
               type="submit"
               className="btn btn-primary"
               onClick={handleSubmit}
+              disabled={isLoading} // Disable the button while loading
+              style={{ width: "100%" }}
             >
-          {translate("register")}
-            </button>
+              {isLoading ? (
+                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>
+              ) : (
+                translate("register")
+              )}
+         
+            </Button>
             <ToastContainer/>
           </form>
         </div>

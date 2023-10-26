@@ -5,22 +5,37 @@ import { CartContext } from "../CartContext";
 import CartProducts from "./CartProducts";
 import { Cart } from "react-bootstrap-icons";
 import "../component/navbar.css";
-import Crousal from "./Crousal";
+
 
 const NavBar = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const [shownLoginPopUp, setShowLoginPopUp] = useState(false);
   const [logoutShow, setLogoutShow] = useState(false);
+  
 
   const userName = JSON.parse(localStorage.getItem("userObj"));
-  const extarctFirstName = userName.firstName;
-  const firstLetter = extarctFirstName.split("")[0];
-  const firstLetterCapital = firstLetter.toUpperCase();
-  const extarctLastName = userName.lastName.split("")[0];
-  const firstLetterLn = extarctLastName.split("")[0];
-  const firstLetterCapitalLN = firstLetterLn.toUpperCase();
+  let firstLetterCapital = "";
+  let firstLetterCapitalLN = "";
+  
+  if (userName) {
+    const extarctFirstName = userName.firstName;
+    const firstLetter = extarctFirstName.split("")[0];
+    firstLetterCapital = firstLetter.toUpperCase();
+  
+    const extarctLastName = userName.lastName.split("")[0];
+    const firstLetterLn = extarctLastName.split("")[0];
+    firstLetterCapitalLN = firstLetterLn.toUpperCase();
+  }
 
   const cart = useContext(CartContext);
+ const updateCart = cart.item.map((item)=>{
+  return {
+    ...item,
+    total : cart.getTotalCost()
+  }
+ })
+
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
   const productCount = cart.item.reduce(
@@ -44,41 +59,64 @@ const NavBar = () => {
     setLogoutShow(false);
   };
 
+  const handleLoginPopUpModalOpen = () => {
+    setShowLoginPopUp(true);
+  };
+
+  const handleLoginPopUpModalClose = () => {
+    setShowLoginPopUp(false);
+  };
   const checkout = async () => {
-    try {
-      const response = await fetch("http://localhost:3344/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ items: cart.item }),
-      });
+    
+    if (isLoggedIn) {
+      try {
+        const response = await fetch("http://localhost:3344/checkout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ items: cart.item }),
+        });
+       
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const responseData = await response.json();
+        
+
+        if (responseData.url) {
+       
+        // Store cart data in local storage or context before navigating
+         localStorage.setItem("cartData", JSON.stringify(updateCart));
+          window.location.assign(responseData.url); // Forwarding user to Stripe
+        }
+      } catch (error) {
+        console.error("Error during checkout:", error);
       }
-
-      const responseData = await response.json();
-
-      if (responseData.url) {
-        window.location.assign(responseData.url); // Forwarding user to Stripe
-      }
-    } catch (error) {
-      console.error("Error during checkout:", error);
+    } else {
+      // alert("user not logged in firts loggin and the continue")
+      handleClose();
+      handleLoginPopUpModalOpen();
     }
   };
 
+  const handleLogin = () => {
+    navigate("/login");
+    handleLoginPopUpModalClose();
+  };
+
+  const handleRegister =()=>{
+    navigate("/register");
+    handleLoginPopUpModalClose();
+  }
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     cart.deleteFromCart();
     cart.logout();
-    navigate("/login");
+    // navigate("/login");
     setLogoutShow(false);
-  };
-
-  const languageOptions = {
-    en: "En",
-    de: "De",
   };
 
   const alternativeLanguage = cart.language === "en" ? "de" : "en";
@@ -92,21 +130,28 @@ const NavBar = () => {
       >
         <Container>
           <Navbar.Brand style={{ color: "white" }}>
-            <Link to='/home'>
-            <div className="logo"></div>
+            <Link to="/">
+              <div className="logo"></div>
             </Link>
-          
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end navbar-collaps">
-            <Button className="mx-2" onClick={handleOpenModal}>
-              {productCount}
-              <Cart />
-            </Button>
+            <div className="cart">
+              <button
+                className="add-to-cart-button mx-2"
+                onClick={handleOpenModal}
+              >
+                <Cart />
+              </button>
+              <div class="cart-badge" id="cart-badge">
+                {productCount}
+              </div>
+            </div>
             {isLoggedIn ? (
               <>
                 <div class="user-container">
                   <span className="username">{`${firstLetterCapital}${firstLetterCapitalLN}`}</span>
+                  {/* <span className="username">{'PN'}</span> */}
                   <div className="logout-box">
                     <Button size="sm" onClick={handleOpenLogoutModal}>
                       Logout
@@ -114,19 +159,22 @@ const NavBar = () => {
                   </div>
                 </div>
               </>
+            ) : !isLoggedIn ? (
+              <Button size="sm" onClick={handleLogin} className="singIn">
+                <span className="bi bi-person"></span>
+                <span>{cart.translate("loginButton")}</span>
+              </Button>
             ) : (
               ""
             )}
             <div className="mx-2">
-              <button
-                onClick={() => cart.changeLanguage(alternativeLanguage)}
-                className="language-button"
+              <select
+                className="translater-selection"
+                onChange={() => cart.changeLanguage(alternativeLanguage)}
               >
-                {languageOptions[cart.language]}
-                <span className="alternative-language">
-                  {languageOptions[alternativeLanguage]}
-                </span>
-              </button>
+                <option value="en">En</option>
+                <option value="de">De</option>
+              </select>
             </div>
           </Navbar.Collapse>
         </Container>
@@ -134,54 +182,63 @@ const NavBar = () => {
       {/* well come text */}
 
       {/* MODAL OPENS */}
-      {isLoggedIn ? (
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Shopping cart details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {productCount > 0 ? (
-              <>
-                <p> Items in the cart :</p>
-                {cart.item.map((currentItem, index) => {
-                  return (
-                    <CartProducts cartProuctDetail={currentItem} key={index} />
-                  );
-                })}
-                <h1>Total : &#8364;{cart.getTotalCost()}</h1>
-              </>
-            ) : (
-              <h4>
-                There is no item in cart. Add item to cart and enjoy your
-                shopping{" "}
-              </h4>
-            )}
-          </Modal.Body>
-          <Modal.Footer>
-            {productCount > 0 ? (
-              <>
-                <Button variant="secondary" onClick={handleClose}>
-                  cancel
-                </Button>
-                <Button variant="success" onClick={checkout}>
-                  Purchase
-                </Button>
-              </>
-            ) : (
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Shopping cart details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {productCount > 0 ? (
+            <>
+              <p> Items in the cart :</p>
+              {cart.item.map((currentItem, index) => {
+                return (
+                  <CartProducts cartProuctDetail={currentItem} key={index} />
+                );
+              })}
+              <h1>Total : &#8364;{cart.getTotalCost()}</h1>
+            </>
+          ) : (
+            <p>
+              There are no item in cart. Add item to cart and enjoy your
+              shopping
+            </p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          {productCount > 0 ? (
+            <>
               <Button variant="secondary" onClick={handleClose}>
                 cancel
               </Button>
-            )}
-          </Modal.Footer>
-        </Modal>
-      ) : (
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Shopping cart details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>please login and continue for shopping</Modal.Body>
-        </Modal>
-      )}
+              <Button variant="success" onClick={checkout}>
+                Purchase
+              </Button>
+            </>
+          ) : (
+            <Button variant="secondary" onClick={handleClose}>
+              cancel
+            </Button>
+          )}
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={shownLoginPopUp} onHide={handleLoginPopUpModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Shopping cart details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          User is not Logged in if you have an acoount please login and if new
+          customer please Register
+          <div>
+            <Button size="sm" onClick={handleLogin} className="singIn">
+              <span>{cart.translate("loginButton")}</span>
+            </Button>/
+            <Button size="sm" onClick={handleRegister} className="singIn">
+              <span>{cart.translate("register")}</span>
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
 
       {/* {logoutModal} */}
       <Modal show={logoutShow} onHide={handleCloseLogoutModal}>

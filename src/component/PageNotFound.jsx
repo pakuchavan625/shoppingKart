@@ -7,14 +7,18 @@ import { CartContext } from '../CartContext';
 
 const PageNotFound = () => {
   const {translate} = useContext(CartContext)
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  
+  
   return (
     <>
+    
    
     <Container>
     <div style={{marginTop:'160px'}}>
-    {translate('pageNotFound')}
+    {isLoggedIn ? translate('pageNotFound') : <Container>First login and then enjoying the shopping cart</Container>}
     </div>
-        <Link to='/home' data-toggle="tooltip" data-placement="top" title="Go back to Home page">
+        <Link to='/' data-toggle="tooltip" data-placement="top" title="Go back to Home page">
         <Button variant="primary"> <ArrowLeft /></Button>
         </Link>
     </Container>

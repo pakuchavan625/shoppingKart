@@ -5,18 +5,14 @@ import ProductCard from "../component/ProductCard";
 import Footer from "../component/Footer";
 import { ArrowUp } from "react-bootstrap-icons";
 import Pagination from 'react-bootstrap/Pagination';
-import { useLocation } from "react-router-dom";
 import { CartContext } from "../CartContext";
+import "../component/navbar.css"
 
 
 
 const ProductStrore = () => {
   const cartloginUserDetail = useContext(CartContext)
 
-  // best way to get the data from useLocation hook
-  // const location = useLocation()
-  // const emailData = location.state.email
-  // console.log("emailData",emailData)
   const [searchItem, setSearchItem] = useState("");
   const [showButton, setShowButton] = useState(false);
   const [sortOrder, setSortOrder] = useState("");
@@ -37,10 +33,11 @@ const ProductStrore = () => {
   // search logic
   const filterProduct = productsArray.filter((product) => {
     return (
-      product.title.toLocaleLowerCase().includes(searchItem) ||
-      product.title.toLocaleUpperCase().includes(searchItem)
+      product.title.toLowerCase().includes(searchItem)  || product.title.toUpperCase().includes(searchItem)
+    
     );
   });
+
 
   const handleScroll = () => {
     if (window.scrollY > 500) {
@@ -83,6 +80,7 @@ const ProductStrore = () => {
  const endIndex = startIndex + itemsPerPage;
  const currentData = paginationData.slice(startIndex, endIndex);
 
+
   return (
     <>
     <Container>
@@ -96,7 +94,6 @@ const ProductStrore = () => {
           marginTop: "160px !important",
         }}
       >
-        {/* {cartloginUserDetail.registerData.firstName ? <p> Hello {cartloginUserDetail.registerData.firstName}  Well come to the Ecommerce Product store!</p> : <p>Well come to the Ecommerce Product store!</p> }     */}
       </header>
       <Form>
         <Form.Group
@@ -149,7 +146,7 @@ const ProductStrore = () => {
           currentData.map((item, index) => {
             return (
               <Col align="center" key={index}>
-                <ProductCard productInfo={item}  productTitleIndex={index}/>
+                <ProductCard productInfo={item}  productTitleIndex={startIndex + index}/>
               </Col>
             );
           })

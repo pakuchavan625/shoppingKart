@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import { CartContext } from "../CartContext";
 
 
+
 const Contactus = () => {
   const cart = useContext(CartContext)
   const navigate = useNavigate();
@@ -130,15 +131,6 @@ const Contactus = () => {
 
   return (
     <>
-    {/* follow:'Folgen',
-    address:'Adresse',
-    openingHours:'Öffnungszeiten',
-    getInTouch:'Nehmen Sie Kontakt auf',
-    firstName:"Vorname",
-    lastName:'Nachname',
-    emial:'E-Mail',
-    phone:'Telefon',
-    message:'Nachricht', */}
       <form>
         <div className="form-group mb-2">
           <label for="firstname">{cart.translate('firstName')}</label>

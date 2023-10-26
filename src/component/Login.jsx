@@ -1,13 +1,14 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from 'react-toastify';
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CartContext } from "../CartContext";
-
-
+import Spinner from "react-bootstrap/Spinner";
+import { Button } from "react-bootstrap";
 
 const Login = () => {
-  const {login, translate} = useContext(CartContext)
+  const location = useLocation();
+  const { login, translate } = useContext(CartContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,54 +17,111 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState("");
   const [checkboxError, setCheckboxError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    if (!email) {
-      setEmailError("Email is required");
+  useEffect(() => {
+    if (location.state !== null) {
+      setEmail(location.state.password);
+      setPassword(location.state.password);
+      handleSubmit();
     }
+  }, []);
 
-    if (!password) {
-      setPasswordError("Password is required");
+  const handleSubmit = async (e) => {
+    if (email && password && isChecked){
+      setIsLoading(true);
+      setIsSuccess(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        setTimeout(() => {
+          setIsSuccess(true);
+        }, 3000);
+      }, 3000); 
     }
+  
+    if (location.state !== null) {
+      try {
+        const loginObj = {
+          email: location.state.email,
+          password: location.state.password,
+        };
+        const response = await fetch("https://reqres.in/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(loginObj),
+        });
 
-    if (!isChecked) {
-      setCheckboxError("Please agre to the term and condition");
-    }
+        if (response.ok) {
+          toast.success("User logged in successfully!");
+          localStorage.setItem("isLoggedIn", "true");
+          login(loginObj);
+          navigate("/", { state: location.state.firstName });
+          setIsLoading(false);
+          // setTimeout(()=>{
+          //   // Here navigating to the next page along the passing the data object also
+
+          // },2000)
+        } else {
+          toast.warn("User is not  Registered!");
+          setIsLoading(false);
+        }
+      } catch (error) {
+        toast.warn("something went wrong:");
+        setIsLoading(false);
+      }
+    } else {
+      e.preventDefault();
+      if (!email) {
+        setEmailError("Email is required");
+      }
+
+      if (!password) {
+        setPasswordError("Password is required");
+      }
+
+      if (!isChecked) {
+        setCheckboxError("Please agre to the term and condition");
+      }
 
       if (email && password && isChecked) {
         try {
-            const loginObj = {
-               email,password
-            }
-            const response = await fetch('https://reqres.in/api/login', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(loginObj),
-            });
-    
-            if (response.ok) {
-              toast.success("User logged in successfully!");
-              localStorage.setItem("isLoggedIn", "true");
-              login(loginObj)
-              setTimeout(()=>{
-                // Here navigating to the next page along the passing the data object also
-                  navigate("/home",  { state:loginObj})
-              },2000)
+          const loginObj = {
+            email,
+            password,
+          };
+          const response = await fetch("https://reqres.in/api/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(loginObj),
+          });
 
-            } else {
-              toast.warn("User is not  Registered!")
-            }
-          } catch (error) {
-            toast.warn('something went wrong:');
+          if (response.ok) {
+            toast.success("User logged in successfully!");
+            localStorage.setItem("isLoggedIn", "true");
+            localStorage.setItem("loginData", loginObj);
+            login(loginObj);
+            setTimeout(() => {
+              // Here navigating to the next page along the passing the data object also
+              navigate("/");
+              setIsLoading(false);
+              setIsSuccess(false)
+            }, 3000);
+          } else {
+            toast.warn("User is not  Registered!");
+            setIsLoading(false);
           }
-      
+        } catch (error) {
+          toast.warn("something went wrong:");
+          setIsLoading(false);
+          setIsSuccess(false)
+        }
       }
-      
-    
+    }
   };
 
   const handleEmailOnChange = (e) => {
@@ -85,8 +143,7 @@ const Login = () => {
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
-    setPasswordError('')
- 
+    setPasswordError("");
   };
 
   // const validatePassword = (inputPassword) => {
@@ -105,17 +162,17 @@ const Login = () => {
   };
 
   return (
-    
     <>
       <div className="FormContainer">
         <div className="formwrapper">
           <header className="login">{translate("login")}</header>
-          <p>
-            {translate("registerdOrNot")}? <Link to="/register">{translate("register")}</Link>{" "}
+          <p style={{ textAlign: "center" }}>
+            {translate("registerdOrNot")}?{" "}
+            <Link to="/register">{translate("register")}</Link>{" "}
           </p>
           <form>
-            <div className="form-group">
-              <label for="exampleInputEmail1">{translate('emailAddres')}</label>
+            <div className="form-group mb-2">
+              <label for="exampleInputEmail1">{translate("emailAddres")}</label>
               <input
                 type="email"
                 className="form-control"
@@ -125,12 +182,14 @@ const Login = () => {
                 onChange={handleEmailOnChange}
               />
               <small id="emailHelp" className="form-text text-muted">
-               {translate('emailWeDontSHare')}
+                {translate("emailWeDontSHare")}
               </small>
               {emailError && <p style={{ color: "red" }}>{emailError}</p>}
             </div>
-            <div className="form-group">
-              <label for="exampleInputPassword1" className="password">{translate("password")}</label>
+            <div className="form-group mb-2">
+              <label for="exampleInputPassword1" className="password">
+                {translate("password")}
+              </label>
               <div className="password-input-container">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -152,7 +211,7 @@ const Login = () => {
             </div>
 
             {passwordError && <p style={{ color: "red" }}>{passwordError}</p>}
-            <div className="form-group form-check">
+            <div className="form-group form-check mb-2">
               <input
                 type="checkbox"
                 className="form-check-input"
@@ -161,17 +220,28 @@ const Login = () => {
                 onChange={handleCheckboxChange}
               />
               <label className="form-check-label" for="exampleCheck1">
-               {translate("agree")}
+                {translate("agree")}
               </label>
               {checkboxError && <p style={{ color: "red" }}>{checkboxError}</p>}
             </div>
-            <button
+            <Button
               type="submit"
-              className="btn btn-primary"
+              className="btn btn-primary "
               onClick={handleSubmit}
+              disabled={isLoading} // Disable the button while loading
+              style={{ width: "100%" }}
             >
-              {translate("loginButton")}
-            </button>
+              {isLoading ? (
+                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>
+              ) :isSuccess ? (
+                // Display the success icon
+                <div className="success" style={{color:'white'}}>
+                 <span className="bi bi-check-circle"></span>
+                </div>
+              ) : (
+                translate("loginButton")
+              )}
+            </Button>
             <ToastContainer />
           </form>
         </div>
